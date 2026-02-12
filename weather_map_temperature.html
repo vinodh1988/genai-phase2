@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_304f51349c3a1f209cb592817247eed8 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    <div style="position: fixed; 
+                bottom: 50px; right: 50px; width: 150px; height: 160px; 
+                background-color: white; border:2px solid grey; z-index:9999; 
+                font-size:14px; padding: 10px">
+                <b>Temperature Legend</b><br>
+                <i style="background:blue; width: 15px; height: 15px; display: inline-block"></i> Cold (&lt;15°C)<br>
+                <i style="background:green; width: 15px; height: 15px; display: inline-block"></i> Mild (15-25°C)<br>
+                <i style="background:orange; width: 15px; height: 15px; display: inline-block"></i> Warm (25-35°C)<br>
+                <i style="background:red; width: 15px; height: 15px; display: inline-block"></i> Hot (&gt;35°C)
+                </div>
+    
+            <div class="folium-map" id="map_304f51349c3a1f209cb592817247eed8" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_304f51349c3a1f209cb592817247eed8 = L.map(
+                "map_304f51349c3a1f209cb592817247eed8",
+                {
+                    center: [20.5937, 78.9629],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 5,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_dbc7489afdc44440b45785855e996b7f = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_dbc7489afdc44440b45785855e996b7f.addTo(map_304f51349c3a1f209cb592817247eed8);
+        
+    
+            var circle_marker_702ccb60a3b41316a52fe6428bf98377 = L.circleMarker(
+                [23.0225, 72.5714],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 2}
+            ).addTo(map_304f51349c3a1f209cb592817247eed8);
+        
+    
+        var popup_176c7c77082baee1ea430ce6598a4670 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_e991c1d6de0b992dc1656a1d27c4d892 = $(`<div id="html_e991c1d6de0b992dc1656a1d27c4d892" style="width: 100.0%; height: 100.0%;"><b>Ahmedabad</b><br>     Avg Temp: 22.4°C<br>     Humidity: 48%<br>     Rainfall: 0.0mm<br>     Wind Speed: 6.7 km/h<br>     Condition: Clear</div>`)[0];
+                popup_176c7c77082baee1ea430ce6598a4670.setContent(html_e991c1d6de0b992dc1656a1d27c4d892);
+            
+        
+
+        circle_marker_702ccb60a3b41316a52fe6428bf98377.bindPopup(popup_176c7c77082baee1ea430ce6598a4670)
+        ;
+
+        
+    
+    
+            var circle_marker_d31369a7de03fcb7149495886b79f167 = L.circleMarker(
+                [12.9716, 77.5946],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 2}
+            ).addTo(map_304f51349c3a1f209cb592817247eed8);
+        
+    
+        var popup_52bcf9a7861b741a218d3feaf696e2a9 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_f68ceb6ac6847ef42ca5a4aa6ce97315 = $(`<div id="html_f68ceb6ac6847ef42ca5a4aa6ce97315" style="width: 100.0%; height: 100.0%;"><b>Bangalore</b><br>     Avg Temp: 21.8°C<br>     Humidity: 78%<br>     Rainfall: 0.9mm<br>     Wind Speed: 5.6 km/h<br>     Condition: Drizzle</div>`)[0];
+                popup_52bcf9a7861b741a218d3feaf696e2a9.setContent(html_f68ceb6ac6847ef42ca5a4aa6ce97315);
+            
+        
+
+        circle_marker_d31369a7de03fcb7149495886b79f167.bindPopup(popup_52bcf9a7861b741a218d3feaf696e2a9)
+        ;
+
+        
+    
+    
+            var circle_marker_8774a92ed546aab18b1d20f5007cf82f = L.circleMarker(
+                [28.0229, 71.8237],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 2}
+            ).addTo(map_304f51349c3a1f209cb592817247eed8);
+        
+    
+        var popup_6863579ed4482eca8a3271c7bb992710 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_2c5c31ac57a52cfff75dc5af8f49a523 = $(`<div id="html_2c5c31ac57a52cfff75dc5af8f49a523" style="width: 100.0%; height: 100.0%;"><b>Bikaner</b><br>     Avg Temp: 15.2°C<br>     Humidity: 49%<br>     Rainfall: 0.0mm<br>     Wind Speed: 12.6 km/h<br>     Condition: Sunny</div>`)[0];
+                popup_6863579ed4482eca8a3271c7bb992710.setContent(html_2c5c31ac57a52cfff75dc5af8f49a523);
+            
+        
+
+        circle_marker_8774a92ed546aab18b1d20f5007cf82f.bindPopup(popup_6863579ed4482eca8a3271c7bb992710)
+        ;
+
+        
+    
+    
+            var circle_marker_6a0816b77c5225a43ab70050d41f54eb = L.circleMarker(
+                [13.0827, 80.2707],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 2}
+            ).addTo(map_304f51349c3a1f209cb592817247eed8);
+        
+    
+        var popup_81aaefa6913979d15f733c74292c5c1d = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_19eb52922ba0f372c4ca645583544ef5 = $(`<div id="html_19eb52922ba0f372c4ca645583544ef5" style="width: 100.0%; height: 100.0%;"><b>Chennai</b><br>     Avg Temp: 23.6°C<br>     Humidity: 76%<br>     Rainfall: 8.6mm<br>     Wind Speed: 14.3 km/h<br>     Condition: Light Rain</div>`)[0];
+                popup_81aaefa6913979d15f733c74292c5c1d.setContent(html_19eb52922ba0f372c4ca645583544ef5);
+            
+        
+
+        circle_marker_6a0816b77c5225a43ab70050d41f54eb.bindPopup(popup_81aaefa6913979d15f733c74292c5c1d)
+        ;
+
+        
+    
+    
+            var circle_marker_1c7b5aac70e7e24cb6d51476e2e93433 = L.circleMarker(
+                [27.036, 88.2605],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 2}
+            ).addTo(map_304f51349c3a1f209cb592817247eed8);
+        
+    
+        var popup_d373bcc35a2116dc116ee2af9000ba3c = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_9f1c5a59253a84f69f95df80c97967a0 = $(`<div id="html_9f1c5a59253a84f69f95df80c97967a0" style="width: 100.0%; height: 100.0%;"><b>Darjeeling</b><br>     Avg Temp: 7.6°C<br>     Humidity: 64%<br>     Rainfall: 0.0mm<br>     Wind Speed: 6.9 km/h<br>     Condition: Foggy</div>`)[0];
+                popup_d373bcc35a2116dc116ee2af9000ba3c.setContent(html_9f1c5a59253a84f69f95df80c97967a0);
+            
+        
+
+        circle_marker_1c7b5aac70e7e24cb6d51476e2e93433.bindPopup(popup_d373bcc35a2116dc116ee2af9000ba3c)
+        ;
+
+        
+    
+    
+            var circle_marker_2c530f20454697426ed77bbaad68d266 = L.circleMarker(
+                [28.7041, 77.1025],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 2}
+            ).addTo(map_304f51349c3a1f209cb592817247eed8);
+        
+    
+        var popup_138ef39ae0ea7a37550f3f0f1e6044a5 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_c515ee7a7ea70c18d3438549206f2b83 = $(`<div id="html_c515ee7a7ea70c18d3438549206f2b83" style="width: 100.0%; height: 100.0%;"><b>Delhi</b><br>     Avg Temp: 13.9°C<br>     Humidity: 50%<br>     Rainfall: 0.0mm<br>     Wind Speed: 11.6 km/h<br>     Condition: Cloudy</div>`)[0];
+                popup_138ef39ae0ea7a37550f3f0f1e6044a5.setContent(html_c515ee7a7ea70c18d3438549206f2b83);
+            
+        
+
+        circle_marker_2c530f20454697426ed77bbaad68d266.bindPopup(popup_138ef39ae0ea7a37550f3f0f1e6044a5)
+        ;
+
+        
+    
+    
+            var circle_marker_8db138c0cb3f87ce98cebcac2bcdabce = L.circleMarker(
+                [17.385, 78.4867],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 2}
+            ).addTo(map_304f51349c3a1f209cb592817247eed8);
+        
+    
+        var popup_ae671fb21e733703c576ef330f102bdc = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_df9a762abc9022d68d68fdd22d84c5e0 = $(`<div id="html_df9a762abc9022d68d68fdd22d84c5e0" style="width: 100.0%; height: 100.0%;"><b>Hyderabad</b><br>     Avg Temp: 21.9°C<br>     Humidity: 53%<br>     Rainfall: 1.5mm<br>     Wind Speed: 12.6 km/h<br>     Condition: Light Rain</div>`)[0];
+                popup_ae671fb21e733703c576ef330f102bdc.setContent(html_df9a762abc9022d68d68fdd22d84c5e0);
+            
+        
+
+        circle_marker_8db138c0cb3f87ce98cebcac2bcdabce.bindPopup(popup_ae671fb21e733703c576ef330f102bdc)
+        ;
+
+        
+    
+    
+            var circle_marker_64136fafcf03f3dec9a33cf6b53bfeeb = L.circleMarker(
+                [26.9124, 70.9142],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 2}
+            ).addTo(map_304f51349c3a1f209cb592817247eed8);
+        
+    
+        var popup_d09c6add2924f220371957b5e328b025 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_13cc8c62aa9cb324111447230f4f4759 = $(`<div id="html_13cc8c62aa9cb324111447230f4f4759" style="width: 100.0%; height: 100.0%;"><b>Jaisalmer</b><br>     Avg Temp: 19.4°C<br>     Humidity: 47%<br>     Rainfall: 0.0mm<br>     Wind Speed: 15.3 km/h<br>     Condition: Partly Cloudy</div>`)[0];
+                popup_d09c6add2924f220371957b5e328b025.setContent(html_13cc8c62aa9cb324111447230f4f4759);
+            
+        
+
+        circle_marker_64136fafcf03f3dec9a33cf6b53bfeeb.bindPopup(popup_d09c6add2924f220371957b5e328b025)
+        ;
+
+        
+    
+    
+            var circle_marker_9935486016db18d9178ec521211add39 = L.circleMarker(
+                [26.2389, 73.0243],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 2}
+            ).addTo(map_304f51349c3a1f209cb592817247eed8);
+        
+    
+        var popup_6ace7f09e480429e022d2c0a9b05fb9f = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_34899566485688c23d46ef020323d534 = $(`<div id="html_34899566485688c23d46ef020323d534" style="width: 100.0%; height: 100.0%;"><b>Jodhpur</b><br>     Avg Temp: 18.9°C<br>     Humidity: 52%<br>     Rainfall: 0.0mm<br>     Wind Speed: 14.2 km/h<br>     Condition: Partly Cloudy</div>`)[0];
+                popup_6ace7f09e480429e022d2c0a9b05fb9f.setContent(html_34899566485688c23d46ef020323d534);
+            
+        
+
+        circle_marker_9935486016db18d9178ec521211add39.bindPopup(popup_6ace7f09e480429e022d2c0a9b05fb9f)
+        ;
+
+        
+    
+    
+            var circle_marker_bbab07b3371ff71db43cf248bf82e631 = L.circleMarker(
+                [9.9312, 76.2673],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 2}
+            ).addTo(map_304f51349c3a1f209cb592817247eed8);
+        
+    
+        var popup_40caf892d613ad4627276ff751de2239 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_e743b49239447330c063bb0a13ff72b5 = $(`<div id="html_e743b49239447330c063bb0a13ff72b5" style="width: 100.0%; height: 100.0%;"><b>Kochi</b><br>     Avg Temp: 27.3°C<br>     Humidity: 81%<br>     Rainfall: 0.0mm<br>     Wind Speed: 15.4 km/h<br>     Condition: Humid</div>`)[0];
+                popup_40caf892d613ad4627276ff751de2239.setContent(html_e743b49239447330c063bb0a13ff72b5);
+            
+        
+
+        circle_marker_bbab07b3371ff71db43cf248bf82e631.bindPopup(popup_40caf892d613ad4627276ff751de2239)
+        ;
+
+        
+    
+    
+            var circle_marker_123aa6255e2772411266ec37ee2154f1 = L.circleMarker(
+                [22.5726, 88.3639],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 2}
+            ).addTo(map_304f51349c3a1f209cb592817247eed8);
+        
+    
+        var popup_e8c0b8be86159dea74f970ff31b2e139 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_e8b36df7dc5619189783ab7d53669f66 = $(`<div id="html_e8b36df7dc5619189783ab7d53669f66" style="width: 100.0%; height: 100.0%;"><b>Kolkata</b><br>     Avg Temp: 23.2°C<br>     Humidity: 66%<br>     Rainfall: 0.0mm<br>     Wind Speed: 10.7 km/h<br>     Condition: Partly Cloudy</div>`)[0];
+                popup_e8c0b8be86159dea74f970ff31b2e139.setContent(html_e8b36df7dc5619189783ab7d53669f66);
+            
+        
+
+        circle_marker_123aa6255e2772411266ec37ee2154f1.bindPopup(popup_e8c0b8be86159dea74f970ff31b2e139)
+        ;
+
+        
+    
+    
+            var circle_marker_5fcf8882c20db6a67056e7c94783508f = L.circleMarker(
+                [34.1526, 77.577],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 2}
+            ).addTo(map_304f51349c3a1f209cb592817247eed8);
+        
+    
+        var popup_120fed83852ccbc7b4bc58b0138ed326 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_327c974392f3ad6b6ebe2025d50d4b98 = $(`<div id="html_327c974392f3ad6b6ebe2025d50d4b98" style="width: 100.0%; height: 100.0%;"><b>Leh</b><br>     Avg Temp: -7.7°C<br>     Humidity: 30%<br>     Rainfall: 0.0mm<br>     Wind Speed: 17.5 km/h<br>     Condition: Clear</div>`)[0];
+                popup_120fed83852ccbc7b4bc58b0138ed326.setContent(html_327c974392f3ad6b6ebe2025d50d4b98);
+            
+        
+
+        circle_marker_5fcf8882c20db6a67056e7c94783508f.bindPopup(popup_120fed83852ccbc7b4bc58b0138ed326)
+        ;
+
+        
+    
+    
+            var circle_marker_434303f9c8deea775605d91716e65db6 = L.circleMarker(
+                [19.076, 72.8777],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 2}
+            ).addTo(map_304f51349c3a1f209cb592817247eed8);
+        
+    
+        var popup_b780f44ff562b25ef19bf5f122959141 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_77cc4f41f5be194bd55318263015c0a4 = $(`<div id="html_77cc4f41f5be194bd55318263015c0a4" style="width: 100.0%; height: 100.0%;"><b>Mumbai</b><br>     Avg Temp: 24.3°C<br>     Humidity: 80%<br>     Rainfall: 0.0mm<br>     Wind Speed: 10.6 km/h<br>     Condition: Partly Cloudy</div>`)[0];
+                popup_b780f44ff562b25ef19bf5f122959141.setContent(html_77cc4f41f5be194bd55318263015c0a4);
+            
+        
+
+        circle_marker_434303f9c8deea775605d91716e65db6.bindPopup(popup_b780f44ff562b25ef19bf5f122959141)
+        ;
+
+        
+    
+    
+            var circle_marker_51a9065544e9490325794d5350e9613d = L.circleMarker(
+                [18.5204, 73.8567],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "green", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 2}
+            ).addTo(map_304f51349c3a1f209cb592817247eed8);
+        
+    
+        var popup_67baca41bbead28452262a0fa76b8ec9 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_a4ee4aa7038413f4bb262924f956927f = $(`<div id="html_a4ee4aa7038413f4bb262924f956927f" style="width: 100.0%; height: 100.0%;"><b>Pune</b><br>     Avg Temp: 22.7°C<br>     Humidity: 24%<br>     Rainfall: 0.0mm<br>     Wind Speed: 8.8 km/h<br>     Condition: Partly Cloudy</div>`)[0];
+                popup_67baca41bbead28452262a0fa76b8ec9.setContent(html_a4ee4aa7038413f4bb262924f956927f);
+            
+        
+
+        circle_marker_51a9065544e9490325794d5350e9613d.bindPopup(popup_67baca41bbead28452262a0fa76b8ec9)
+        ;
+
+        
+    
+    
+            var circle_marker_d1f20fefa15137100b968443f5523e1e = L.circleMarker(
+                [31.7815, 77.1822],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 2}
+            ).addTo(map_304f51349c3a1f209cb592817247eed8);
+        
+    
+        var popup_ccce63b2e08dd57a1dbe712c8c4947d4 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_86b76ea017fc0057ec59599d97b29739 = $(`<div id="html_86b76ea017fc0057ec59599d97b29739" style="width: 100.0%; height: 100.0%;"><b>Shimla</b><br>     Avg Temp: 8.1°C<br>     Humidity: 60%<br>     Rainfall: 7.9mm<br>     Wind Speed: 9.3 km/h<br>     Condition: Light Rain</div>`)[0];
+                popup_ccce63b2e08dd57a1dbe712c8c4947d4.setContent(html_86b76ea017fc0057ec59599d97b29739);
+            
+        
+
+        circle_marker_d1f20fefa15137100b968443f5523e1e.bindPopup(popup_ccce63b2e08dd57a1dbe712c8c4947d4)
+        ;
+
+        
+    
+    
+            var circle_marker_0af03d91f8712935d3cabb7e18412850 = L.circleMarker(
+                [34.0837, 74.7973],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "blue", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10, "stroke": true, "weight": 2}
+            ).addTo(map_304f51349c3a1f209cb592817247eed8);
+        
+    
+        var popup_d5a35bd0b25951e864d88233a7e12e60 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_e09fda825b7742b37fc4c320b1a93aaa = $(`<div id="html_e09fda825b7742b37fc4c320b1a93aaa" style="width: 100.0%; height: 100.0%;"><b>Srinagar</b><br>     Avg Temp: 4.0°C<br>     Humidity: 78%<br>     Rainfall: 0.0mm<br>     Wind Speed: 11.5 km/h<br>     Condition: Snow</div>`)[0];
+                popup_d5a35bd0b25951e864d88233a7e12e60.setContent(html_e09fda825b7742b37fc4c320b1a93aaa);
+            
+        
+
+        circle_marker_0af03d91f8712935d3cabb7e18412850.bindPopup(popup_d5a35bd0b25951e864d88233a7e12e60)
+        ;
+
+        
+    
+</script>
+</html>
