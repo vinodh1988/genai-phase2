@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>KPI Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #0b1f2a;
+        --muted: #4b5a65;
+        --card: #ffffff;
+        --accent: #ff6b35;
+        --accent-2: #1f7a8c;
+        --bg-1: #f4efe9;
+        --bg-2: #e3f1f2;
+        --shadow: 0 20px 45px rgba(11, 31, 42, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "IBM Plex Sans", sans-serif;
+        color: var(--ink);
+        background: radial-gradient(circle at top left, var(--bg-2), transparent 45%),
+          linear-gradient(135deg, var(--bg-1), #fbf8f2 60%);
+        min-height: 100vh;
+      }
+
+      header {
+        padding: 40px 7vw 24px;
+      }
+
+      header h1 {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: clamp(28px, 3.2vw, 46px);
+        margin: 0 0 12px;
+        letter-spacing: -0.02em;
+      }
+
+      header p {
+        margin: 0;
+        color: var(--muted);
+        max-width: 680px;
+      }
+
+      main {
+        padding: 0 7vw 64px;
+        display: grid;
+        gap: 28px;
+      }
+
+      .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 18px;
+      }
+
+      .kpi-card {
+        background: var(--card);
+        border-radius: 18px;
+        padding: 18px 20px;
+        box-shadow: var(--shadow);
+        display: grid;
+        gap: 8px;
+      }
+
+      .kpi-card span {
+        color: var(--muted);
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .kpi-card strong {
+        font-size: 24px;
+        font-family: "Space Grotesk", sans-serif;
+      }
+
+      .panel {
+        background: var(--card);
+        border-radius: 24px;
+        padding: 22px;
+        box-shadow: var(--shadow);
+      }
+
+      .panel h2 {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 20px;
+        margin: 0 0 16px;
+      }
+
+      .chart-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 22px;
+      }
+
+      img {
+        width: 100%;
+        border-radius: 18px;
+        box-shadow: 0 12px 35px rgba(11, 31, 42, 0.12);
+      }
+
+      .note {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 12px;
+      }
+
+      @media (max-width: 768px) {
+        header {
+          padding: 32px 6vw 20px;
+        }
+
+        main {
+          padding: 0 6vw 56px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>E-commerce KPI Dashboard</h1>
+      <p>
+        Generated from Python with static images for trend and regression diagnostics.
+      </p>
+    </header>
+    <main>
+      <section class="kpi-grid">
+        <div class="kpi-card"><span>Total Revenue</span><strong>$32,370,533</strong></div>
+<div class="kpi-card"><span>Total Orders</span><strong>435,933</strong></div>
+<div class="kpi-card"><span>Avg Conversion</span><strong>1.83%</strong></div>
+<div class="kpi-card"><span>Total Marketing Spend</span><strong>$6,923,601</strong></div>
+<div class="kpi-card"><span>Avg Order Value</span><strong>$74</strong></div>
+      </section>
+      <section class="panel">
+        <h2>Revenue Trend</h2>
+        <img src="revenue_trend.png" alt="Revenue trend" />
+        <div class="note">Monthly aggregation to highlight trend direction.</div>
+      </section>
+      <section class="panel">
+        <h2>Scatter Diagnostics</h2>
+        <div class="chart-grid">
+          <div>
+            <img src="spend_vs_revenue.png" alt="Spend vs revenue" />
+            <div class="note">Marketing spend vs revenue with regression.</div>
+          </div>
+          <div>
+            <img src="visitors_vs_orders.png" alt="Visitors vs orders" />
+            <div class="note">Website visitors vs orders.</div>
+          </div>
+          <div>
+            <img src="cac_vs_revenue.png" alt="CAC vs revenue" />
+            <div class="note">Customer acquisition cost vs revenue.</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>KPI Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+      :root {
+        --ink: #0b1f2a;
+        --muted: #4b5a65;
+        --card: #ffffff;
+        --accent: #ff6b35;
+        --accent-2: #1f7a8c;
+        --bg-1: #f4efe9;
+        --bg-2: #e3f1f2;
+        --shadow: 0 20px 45px rgba(11, 31, 42, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "IBM Plex Sans", sans-serif;
+        color: var(--ink);
+        background: radial-gradient(circle at top left, var(--bg-2), transparent 45%),
+          linear-gradient(135deg, var(--bg-1), #fbf8f2 60%);
+        min-height: 100vh;
+      }
+
+      header {
+        padding: 40px 7vw 24px;
+      }
+
+      header h1 {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: clamp(28px, 3.2vw, 46px);
+        margin: 0 0 12px;
+        letter-spacing: -0.02em;
+      }
+
+      header p {
+        margin: 0;
+        color: var(--muted);
+        max-width: 680px;
+      }
+
+      .toolbar {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        margin-top: 20px;
+        flex-wrap: wrap;
+      }
+
+      .toolbar label {
+        font-weight: 600;
+        color: var(--muted);
+      }
+
+      select {
+        padding: 10px 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(11, 31, 42, 0.1);
+        background: white;
+        font-family: inherit;
+      }
+
+      main {
+        padding: 0 7vw 64px;
+        display: grid;
+        gap: 28px;
+      }
+
+      .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 18px;
+      }
+
+      .kpi-card {
+        background: var(--card);
+        border-radius: 18px;
+        padding: 18px 20px;
+        box-shadow: var(--shadow);
+        display: grid;
+        gap: 8px;
+      }
+
+      .kpi-card span {
+        color: var(--muted);
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .kpi-card strong {
+        font-size: 24px;
+        font-family: "Space Grotesk", sans-serif;
+      }
+
+      .panel {
+        background: var(--card);
+        border-radius: 24px;
+        padding: 22px;
+        box-shadow: var(--shadow);
+      }
+
+      .panel h2 {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 20px;
+        margin: 0 0 16px;
+      }
+
+      .chart-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 22px;
+      }
+
+      canvas {
+        width: 100% !important;
+        height: 320px !important;
+      }
+
+      .note {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 12px;
+      }
+
+      @media (max-width: 768px) {
+        header {
+          padding: 32px 6vw 20px;
+        }
+
+        main {
+          padding: 0 6vw 56px;
+        }
+
+        canvas {
+          height: 260px !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>E-commerce KPI Dashboard</h1>
+      <p>
+        Synthetic data with controlled relationships to explore KPI behavior, funnel
+        efficiency, and marketing effectiveness.
+      </p>
+      <div class="toolbar">
+        <label for="regionSelect">Region</label>
+        <select id="regionSelect"></select>
+      </div>
+    </header>
+    <main>
+      <section class="kpi-grid" id="kpiGrid"></section>
+      <section class="panel">
+        <h2>Revenue Trend</h2>
+        <canvas id="revenueTrend"></canvas>
+        <div class="note">Weekly aggregation to highlight trend direction.</div>
+      </section>
+      <section class="panel">
+        <h2>Scatter Diagnostics</h2>
+        <div class="chart-grid">
+          <div>
+            <canvas id="spendRevenue"></canvas>
+            <div class="note">Marketing spend vs revenue with regression line.</div>
+          </div>
+          <div>
+            <canvas id="visitorsOrders"></canvas>
+            <div class="note">Website visitors vs orders.</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const state = {
+        raw: [],
+        filtered: [],
+        charts: {},
+      };
+
+      const kpiGrid = document.getElementById("kpiGrid");
+      const regionSelect = document.getElementById("regionSelect");
+
+      function parseCsv(text) {
+        const lines = text.trim().split(/\r?\n/);
+        const headers = lines[0].split(",");
+        return lines.slice(1).map((line) => {
+          const values = line.split(",");
+          const row = {};
+          headers.forEach((header, idx) => {
+            row[header] = values[idx];
+          });
+          return {
+            Date: row.Date,
+            Marketing_Spend: Number(row.Marketing_Spend),
+            Website_Visitors: Number(row.Website_Visitors),
+            Conversion_Rate: Number(row.Conversion_Rate),
+            Orders: Number(row.Orders),
+            Revenue: Number(row.Revenue),
+            Avg_Order_Value: Number(row.Avg_Order_Value),
+            Customer_Acquisition_Cost: Number(row.Customer_Acquisition_Cost),
+            Region: row.Region,
+          };
+        });
+      }
+
+      function formatCurrency(value) {
+        return value.toLocaleString(undefined, {
+          style: "currency",
+          currency: "USD",
+          maximumFractionDigits: 0,
+        });
+      }
+
+      function formatNumber(value) {
+        return value.toLocaleString(undefined, { maximumFractionDigits: 0 });
+      }
+
+      function formatPercent(value) {
+        return `${(value * 100).toFixed(2)}%`;
+      }
+
+      function buildKpis(rows) {
+        const totalRevenue = rows.reduce((sum, row) => sum + row.Revenue, 0);
+        const totalOrders = rows.reduce((sum, row) => sum + row.Orders, 0);
+        const totalSpend = rows.reduce((sum, row) => sum + row.Marketing_Spend, 0);
+        const avgConversion = rows.reduce((sum, row) => sum + row.Conversion_Rate, 0) /
+          Math.max(rows.length, 1);
+        const avgAov = rows.reduce((sum, row) => sum + row.Avg_Order_Value, 0) /
+          Math.max(rows.length, 1);
+
+        return [
+          { label: "Total Revenue", value: formatCurrency(totalRevenue) },
+          { label: "Total Orders", value: formatNumber(totalOrders) },
+          { label: "Avg Conversion", value: formatPercent(avgConversion) },
+          { label: "Total Marketing Spend", value: formatCurrency(totalSpend) },
+          { label: "Avg Order Value", value: formatCurrency(avgAov) },
+        ];
+      }
+
+      function renderKpis(rows) {
+        const kpis = buildKpis(rows);
+        kpiGrid.innerHTML = "";
+        kpis.forEach((kpi) => {
+          const card = document.createElement("div");
+          card.className = "kpi-card";
+          card.innerHTML = `<span>${kpi.label}</span><strong>${kpi.value}</strong>`;
+          kpiGrid.appendChild(card);
+        });
+      }
+
+      function aggregateWeekly(rows) {
+        const buckets = new Map();
+        rows.forEach((row) => {
+          const date = new Date(row.Date);
+          const weekStart = new Date(date);
+          weekStart.setDate(date.getDate() - date.getDay());
+          const key = weekStart.toISOString().slice(0, 10);
+          if (!buckets.has(key)) {
+            buckets.set(key, { date: key, revenue: 0 });
+          }
+          buckets.get(key).revenue += row.Revenue;
+        });
+        return Array.from(buckets.values()).sort((a, b) =>
+          a.date.localeCompare(b.date)
+        );
+      }
+
+      function regression(points) {
+        const n = points.length;
+        if (n === 0) return { slope: 0, intercept: 0 };
+        const sumX = points.reduce((sum, p) => sum + p.x, 0);
+        const sumY = points.reduce((sum, p) => sum + p.y, 0);
+        const sumXY = points.reduce((sum, p) => sum + p.x * p.y, 0);
+        const sumXX = points.reduce((sum, p) => sum + p.x * p.x, 0);
+        const slope = (n * sumXY - sumX * sumY) / Math.max(n * sumXX - sumX * sumX, 1);
+        const intercept = (sumY - slope * sumX) / Math.max(n, 1);
+        return { slope, intercept };
+      }
+
+      function buildScatter(points, color) {
+        return {
+          type: "scatter",
+          data: {
+            datasets: [
+              {
+                label: "Data",
+                data: points,
+                backgroundColor: color,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              x: { grid: { color: "rgba(11,31,42,0.08)" } },
+              y: { grid: { color: "rgba(11,31,42,0.08)" } },
+            },
+          },
+        };
+      }
+
+      function buildLine(labels, series, color) {
+        return {
+          type: "line",
+          data: {
+            labels,
+            datasets: [
+              {
+                label: "Revenue",
+                data: series,
+                borderColor: color,
+                backgroundColor: "rgba(255, 107, 53, 0.12)",
+                fill: true,
+                tension: 0.25,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              x: { grid: { display: false } },
+              y: { grid: { color: "rgba(11,31,42,0.08)" } },
+            },
+          },
+        };
+      }
+
+      function renderCharts(rows) {
+        const weekly = aggregateWeekly(rows);
+        const labels = weekly.map((item) => item.date);
+        const values = weekly.map((item) => Math.round(item.revenue));
+
+        if (state.charts.revenueTrend) {
+          state.charts.revenueTrend.destroy();
+        }
+        state.charts.revenueTrend = new Chart(
+          document.getElementById("revenueTrend"),
+          buildLine(labels, values, "#ff6b35")
+        );
+
+        const spendRevenue = rows.map((row) => ({
+          x: row.Marketing_Spend,
+          y: row.Revenue,
+        }));
+        const spendModel = regression(spendRevenue);
+        const spendMin = Math.min(...spendRevenue.map((p) => p.x));
+        const spendMax = Math.max(...spendRevenue.map((p) => p.x));
+        const spendLine = [
+          { x: spendMin, y: spendModel.slope * spendMin + spendModel.intercept },
+          { x: spendMax, y: spendModel.slope * spendMax + spendModel.intercept },
+        ];
+
+        if (state.charts.spendRevenue) {
+          state.charts.spendRevenue.destroy();
+        }
+        const spendConfig = buildScatter(spendRevenue, "rgba(31, 122, 140, 0.6)");
+        spendConfig.data.datasets.push({
+          type: "line",
+          label: "Regression",
+          data: spendLine,
+          borderColor: "#ff6b35",
+          borderWidth: 2,
+          pointRadius: 0,
+        });
+        state.charts.spendRevenue = new Chart(
+          document.getElementById("spendRevenue"),
+          spendConfig
+        );
+
+        const visitorOrders = rows.map((row) => ({
+          x: row.Website_Visitors,
+          y: row.Orders,
+        }));
+
+        if (state.charts.visitorsOrders) {
+          state.charts.visitorsOrders.destroy();
+        }
+        state.charts.visitorsOrders = new Chart(
+          document.getElementById("visitorsOrders"),
+          buildScatter(visitorOrders, "rgba(255, 107, 53, 0.6)")
+        );
+      }
+
+      function updateDashboard(region) {
+        const filtered = region === "All"
+          ? state.raw
+          : state.raw.filter((row) => row.Region === region);
+        state.filtered = filtered;
+        renderKpis(filtered);
+        renderCharts(filtered);
+      }
+
+      function initRegionFilter(rows) {
+        const regions = Array.from(new Set(rows.map((row) => row.Region)));
+        regionSelect.innerHTML = "";
+        ["All", ...regions].forEach((region) => {
+          const option = document.createElement("option");
+          option.value = region;
+          option.textContent = region;
+          regionSelect.appendChild(option);
+        });
+        regionSelect.addEventListener("change", (event) => {
+          updateDashboard(event.target.value);
+        });
+      }
+
+      async function init() {
+        const response = await fetch("ecommerce_kpi.csv");
+        const text = await response.text();
+        const rows = parseCsv(text);
+        state.raw = rows;
+        initRegionFilter(rows);
+        updateDashboard("All");
+      }
+
+      init();
+    </script>
+  </body>
+</html>
